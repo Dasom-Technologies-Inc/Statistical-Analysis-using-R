@@ -1,0 +1,46 @@
+# PROBLEM 1
+
+#Importing nail-polish dataset from github repository 
+
+#Part 1: Problem statement based on the experimental unit, the response variable, factor, factor levels and treatment.
+
+#A COMPLETE RANDOMIZE DESIGN:
+
+#Step 1: Identify the problem or claim to be studied.We will study and experiment the response in % of nail chipped off as measured by scanning images of the nails and using an image processing program because of the effect of chlorination. For the purpose of this study, we'll characterize the "chippness" based on the color and % nail chip.
+
+#Step 2: Determine the factors affecting the response variable.There are plenty of factors here, but let's list a few. Obviously, the texture of a nail is a factor. We might also include , polish concentration, PH level of the polish, nail size, and concentration and amount of the chlorine used.
+
+#Step 3: Determine the number of experimental units.This will depend on which design we use, so let's hold off on this step until later.
+
+#Step 4: Determining the level(s) of each factor.I will have to take a list of factors and try to fit them into one of the groups.
+
+#1. Control: Looking at the list, the only factor I see that we can control is - is the amount of the chlorine to be used.
+#2. Manipulate: This is the treatment - reduce the amount of chlorine to be used..
+#3. Randomize: This is everything else - polish concentration, PH level of the polish and nail size.
+
+#Importing nail-polish dataset from github repository 
+df1 <- read.csv("https://raw.githubusercontent.com/hellomissingdata/STA363/main/nail-polish.csv")
+
+df1
+
+#Part 2: Plotting and commenting on average and response variation
+#calculating the average(mean)
+
+
+barplot(df1$PctChipped, ylim = c(0, 45), names = df1$Color, xlab = "Color", ylab = "PctChipped-nails", main = "Color vs PctChipped-nails")
+#we can observe from barplot above that nude color has the highest percentage nail chip rate of 42.0 which is slightly above the mean while the red color has the lowest percentage nail chip of 16.3
+
+#calculating mean and summary in r
+summary(df1)
+result.mean <- mean(df1$PctChipped)
+print(result.mean)
+
+#We can observe from the barplot that the mean percentage nail chip for the experiment is 28.57667 and median of 4
+
+#Part 3: statistical analysis
+
+#Statisticallly computational procedure is a concept usually used to analyze data from experimental study while applying statistical procedure known as variance analysis and response factor.Therefore we can conclude that the factor variables stipulated above constantly affect the nail chipping rate.
+ 
+#Part 4: Assumption
+#We can observe the graph plot tends form a normal distribution scheme in both colors
+plot(df1$PctChipped,type = "o")

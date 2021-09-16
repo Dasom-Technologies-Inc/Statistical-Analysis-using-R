@@ -1,0 +1,70 @@
+# PROBLEM 2
+
+#Importing constrast dataset from github repository 
+df2 <- read.csv("https://raw.githubusercontent.com/hellomissingdata/STA363/main/contrast-baths.csv")
+
+
+#dropping of missing data
+
+install.packages("tidyr") 
+# Install & load tidyr package
+library("tidyr")
+df3 <- df2 %>% drop_na()                      
+# Apply drop_na function
+df3  
+# Printing updated data
+
+#Part 1: commenting on the experimental design
+
+#Step 1: Identify the problem to be studied.We will study and experiment the response of constrast bath a treatment modality mostly used in many clinics. Contrast baths are known for reducing hand volume, alleviating pain, and decreasing stiffness in affected extremities. To determine the effects of specific contrast bath protocols on hand volume in patients diagnosed with Carpal Tunnel Syndrome, study participants were randomly assigned to one of three treatment group protocols: contrast baths with exercise, contrast baths without exercise, and an exercise-only control treatment group. Study participants were then evaluated with hand volumetry, before and after treatment, at two different data collection periods: pre- and postoperatively. The change in hand volume (the after treatment volume minus the before treatment volume) is the outcome of interest to us
+
+#Step 2: Determining the factors affecting the response variable. There are plenty of factors here, thus we can list a few. Obviously, the main factor is hand volume change. We might also include temperature change and health condition.
+
+#Step 3: Determine the number of experimental units.This will depend on which design we use, so let's hold off on this step until later.
+
+#Step 4: Determining the level(s) of each factor.I will have to take a list of factors and fit them in one groups.
+
+#1. Control: Looking at the list, the only factor I see that we can control is - hand change volume.
+#2. Manipulate: This is the treatment - which include bathing, exercising or both.
+#3. Randomize: This is everything else - temperature change.
+
+#part 2: EDA analysis
+plot(df3$Hand.Vol.Chg, type = "o")
+
+result.mean <- mean(df3$Hand.Vol.Chg)
+print(result.mean)
+
+#We can use EDA analysis technique to explain the trend observed from the visualization. It obvious that the average of the hand volume change against the factors is 4.559322 with the lowest value being 12 and the highest being 21. At some point the graph tends to follow a normal distribution.
+
+#part 3: statistical analysis
+
+#finding p value
+summary(df3)
+
+# use a two-sided hypothesis test
+length(df3$Hand.Vol.Chg)
+
+#we calculate the sample mean and sample standard deviation in order to calculate the p value
+t <- (mean(df3$Hand.Vol.Chg)-0.7)/(sd(df3$Hand.Vol.Chg)/sqrt(length(df3$Hand.Vol.Chg)))
+t
+#calculating the degree of freedom
+n_t08 <- dim(df3)[1]
+n_t19 <- dim(df3)[1]
+df <- n_t08 + n_t19 - 2
+df
+#finding the p- value
+2*pt(-abs(t),df=length(df3$Hand.Vol.Chg)-1)
+
+#we observe that the degree of freedom of the experiment design is 116 and the p value is 0.000287464. Thus from the p-value being less than 0.05 conludes that the hypothesis statistically significant
+
+#part 4: Generating residual plot
+#assumption: it obeys a normal distribution scheme
+hist(df3$Hand.Vol.Chg, 
+     breaks = 'Sturges',
+     xlab = 'Height in cm',
+     main = '',
+     col = 3)
+
+#part 5: I choose tukey
+#1.I prefer tukey a prism scheme which compares each mean with every other mean as compared to dunnet which chooses to compare  a mean with a control mean.
+#2.Tukey’s test calculates a new critical value that can be used to evaluate whether differences between any two pairs of means are significant. The critical value is a little different because it involves the mean difference that has to be exceeded to achieve significance.
